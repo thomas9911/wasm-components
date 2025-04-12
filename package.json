@@ -1,0 +1,21 @@
+{
+  "name": "wasm-components",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "npm run build:mustache",
+    "build:mustache": "wash build --config-path components/mustache",
+    "transpile": "npm run transpile:mustache",
+    "transpile:mustache": "jco transpile -o transpiled/mustache components/mustache/build/mustache_component_s.wasm",
+    "test": "vitest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@bytecodealliance/jco": "^1.10.2",
+    "vitest": "^3.1.1"
+  }
+}
