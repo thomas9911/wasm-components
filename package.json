@@ -5,13 +5,16 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "build": "npm run build:mustache && npm run build:liquid",
+    "build": "npm run build:mustache && npm run build:liquid && npm run build:handlebars",
     "build:mustache": "wash build --config-path components/mustache",
     "build:liquid": "wash build --config-path components/liquid",
-    "transpile": "npm run transpile:mustache && npm run transpile:liquid",
+    "build:handlebars": "wash build --config-path components/handlebars",
+    "transpile": "npm run transpile:mustache && npm run transpile:liquid && npm run transpile:handlebars",
     "transpile:mustache": "jco transpile -o transpiled/mustache components/mustache/build/mustache_component_s.wasm",
     "transpile:liquid": "jco transpile -o transpiled/liquid components/liquid/build/liquid_component_s.wasm",
-    "test": "vitest"
+    "transpile:handlebars": "jco transpile -o transpiled/handlebars components/handlebars/build/handlebars_component_s.wasm",
+    "test": "vitest run",
+    "doit": "npm run build && npm run transpile && npm run test"
   },
   "keywords": [],
   "author": "",
