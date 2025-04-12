@@ -1,9 +1,14 @@
-import { template } from "./transpiled/mustache/mustache_component_s.js";
+import { template as mustacheTemplate } from "./transpiled/mustache/mustache_component_s.js";
+import { template as liquidTemplate } from "./transpiled/liquid/liquid_component_s.js";
 
 import { describe, expect, test } from "vitest";
 
-function mustache(template_string, data) {
-  return template.render(template_string, JSON.stringify(data));
+function mustache(template, data) {
+  return mustacheTemplate.render(template, JSON.stringify(data));
+}
+
+function liquid(template, data) {
+  return liquidTemplate.render(template, JSON.stringify(data));
 }
 
 describe("renders mustache", () => {
@@ -33,4 +38,31 @@ describe("renders mustache", () => {
   rip
 `);
   });
+});
+
+describe("renders liquid", () => {
+    test("simple", () => {
+        expect(liquid("{{ name }}!!", { name: "hallo" }))
+          .toBe("hallo!!");
+      });
+
+      test("list", () => {
+        expect(liquid(
+          `{% for item in repo %}
+  {{ item.name }}{% endfor %}
+    `,
+          {
+            "repo": [
+              { "name": "resque" },
+              { "name": "hub" },
+              { "name": "rip" },
+            ],
+          },
+        ))
+          .toBe(`
+  resque
+  hub
+  rip
+    `);
+      });
 });

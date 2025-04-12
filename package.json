@@ -5,10 +5,12 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "build": "npm run build:mustache",
+    "build": "npm run build:mustache && npm run build:liquid",
     "build:mustache": "wash build --config-path components/mustache",
-    "transpile": "npm run transpile:mustache",
+    "build:liquid": "wash build --config-path components/liquid",
+    "transpile": "npm run transpile:mustache && npm run transpile:liquid",
     "transpile:mustache": "jco transpile -o transpiled/mustache components/mustache/build/mustache_component_s.wasm",
+    "transpile:liquid": "jco transpile -o transpiled/liquid components/liquid/build/liquid_component_s.wasm",
     "test": "vitest"
   },
   "keywords": [],
