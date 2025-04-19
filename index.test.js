@@ -3,6 +3,7 @@ import { template as liquidTemplate } from "./transpiled/liquid/liquid_component
 import { template as handlebarsTemplate } from "./transpiled/handlebars/handlebars_component_s.js";
 import { template as tinyTemplate } from "./transpiled/tinytemplate/tinytemplate_component_s.js";
 import { template as teraTemplate } from "./transpiled/tera/tera_component_s.js";
+import { expression as expressionPython } from "./transpiled/python/python_component_s.js";
 
 import { describe, expect, test } from "vitest";
 
@@ -164,3 +165,16 @@ describe("renders tera", () => {
     `);
   });
 });
+
+describe("runs python", () => {
+  test("simple function", async () => {
+    let script = `
+import json
+def add(*args):
+  return sum(args)
+
+json.dumps(add(1,2,3,4,5))
+    `
+    expect(expressionPython.run(script)).toBe("15")
+  });
+})
