@@ -1,18 +1,18 @@
 [package]
 name = "python-component"
 version = "0.1.0"
-edition = "2024"
+edition = "2021"
 
 [lib]
 crate-type = ["cdylib"]
 
 [dependencies]
 
-# rustpython = { git = "https://github.com/thomas9911/RustPython.git" }
-# rustpython-pylib = { git = "https://github.com/thomas9911/RustPython.git", features = ["freeze-stdlib"] }
+rustpython = { git = "https://github.com/thomas9911/RustPython.git", features = ["encodings", "freeze-stdlib"] }
+rustpython-pylib = { git = "https://github.com/thomas9911/RustPython.git", features = ["freeze-stdlib"] }
 
-rustpython = { path = "F:\\Rust\\RustPython", features = ["encodings", "freeze-stdlib"] }
-rustpython-pylib = { path = "F:\\Rust\\RustPython\\pylib", features = ["freeze-stdlib"] }
+# rustpython = { path = "F:\\Rust\\RustPython", features = ["encodings", "freeze-stdlib"] }
+# rustpython-pylib = { path = "F:\\Rust\\RustPython\\pylib", features = ["freeze-stdlib"] }
 
 
 # rustpython-vm = { git = "https://github.com/thomas9911/RustPython.git" }

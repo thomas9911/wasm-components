@@ -1,14 +1,11 @@
 pub mod bindings {
     use crate::PythonExecute;
-    // wit_bindgen::generate!({with: { "thomas9911:template/template@0.1.0": generate, }});
     wit_bindgen::generate!({ generate_all });
     export!(PythonExecute);
 }
 
 use crate::bindings::exports::thomas9911::expression::expression::Guest;
 
-// use rustpython_vm::{self as vm, PyResult, VirtualMachine};
-// use rustpython::{vm, PyResult, VirtualMachine};
 use rustpython::vm;
 use rustpython::vm::{PyResult, VirtualMachine};
 
