@@ -5,7 +5,7 @@ pub mod bindings {
 }
 
 use rquickjs::{
-    CatchResultExt, CaughtError, Context, Ctx, Error, Function, Object, Runtime, Value,
+    CatchResultExt, CaughtError, Context, Ctx, Runtime, Value,
 };
 
 use crate::bindings::exports::thomas9911::expression::expression::Guest;
@@ -24,16 +24,6 @@ fn running(script: &str) -> Result<String, String> {
     let ctx = Context::full(&rt).map_err(|e| e.to_string())?;
 
     let out = ctx.with(|ctx| -> Result<_, String> {
-        // Ok(ctx.eval::<Value, _>(script.as_bytes()).catch(&ctx))
-        // Ok(ctx.eval::<Value, _>(script.as_bytes())?)
-
-        // match ctx.eval::<Value, _>(script.as_bytes())?.try_into_string() {
-        //     Ok(x) => Ok(x.to_string()?),
-        //     Err(e) => {
-        //         eprintln!("{:?}", e);
-        //         Err(Error::Exception)
-        //     },
-        // }
         let val = ctx
             .eval::<Value, _>(script.as_bytes())
             .catch(&ctx)
@@ -45,20 +35,9 @@ fn running(script: &str) -> Result<String, String> {
                     Err(e) => e,
                 },
             })?;
-        eprintln!("{:?}", val);
-
-        // match ctx.json_stringify(val).map_err(|e| e.to_string())? {
-        //     Some(x) => Ok(x.to_string().map_err(|e| e.to_string())?),
-        //     None => Ok("null".to_string()),
-        // }
         into_json(val, &ctx)
     })?;
 
-    // Ok(out.try_into_string()?)
-    // match out.try_into_string() {
-    //     Ok(x) => Ok(x.to_string()?),
-    //     Err(e) => Err(Error::Exception),
-    // }
     Ok(out)
 }
 
