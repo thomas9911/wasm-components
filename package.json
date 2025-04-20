@@ -21,8 +21,12 @@
     "transpile:handlebars": "jco transpile -o transpiled/handlebars components/handlebars/build/handlebars_component_s.wasm",
     "transpile:tinytemplate": "jco transpile -o transpiled/tinytemplate components/tinytemplate/build/tinytemplate_component_s.wasm",
     "transpile:tera": "jco transpile -o transpiled/tera components/tera/build/tera_component_s.wasm",
-    "test": "vitest run",
-    "doit": "npm run build && npm run transpile && npm run test"
+    "test": "vitest run index.test.js",
+    "test:all": "vitest run",
+    "doit": "npm run build && npm run transpile && npm run test",
+    "build:compose": "wac plug -o ./composition/run_template/build/composed.wasm --plug ./components/javascript/build/javascript_component_s.wasm --plug ./components/liquid/build/liquid_component_s.wasm ./composition/run_template/build/run_component_s.wasm",
+    "transpile:compose": "jco transpile -o transpiled/compose ./composition/run_template/build/composed.wasm",
+    "run:compose": "npm run build:compose && npm run transpile:compose && npx vitest run compose.test.js"
   },
   "keywords": [],
   "author": "",

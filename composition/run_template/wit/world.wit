@@ -1,0 +1,12 @@
+package thomas9911:run-template@0.1.0;
+
+interface out {
+    run: func(template: string, json-variables: string) -> result<string, string>;
+
+}
+
+world hello {
+    import thomas9911:template/template@0.1.0;
+    import thomas9911:expression/expression@0.1.0;
+    export out;
+}

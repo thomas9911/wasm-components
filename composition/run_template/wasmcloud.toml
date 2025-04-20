@@ -1,0 +1,13 @@
+language = "rust"
+type = "component"
+
+[component]
+wasm_target = "wasm32-wasip2"
+
+[[registry.pull.sources]]
+target = "thomas9911:template@0.1.0"
+source = "file://../../wit/template.wit"
+
+[[registry.pull.sources]]
+target = "thomas9911:expression@0.1.0"
+source = "file://../../wit/expression.wit"
