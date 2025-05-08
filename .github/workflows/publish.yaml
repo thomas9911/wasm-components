@@ -20,8 +20,20 @@ jobs:
         include:
           - image: javascript
             toolchain: stable
-          - image: python
-            toolchain: nightly
+          - image: starlark
+            toolchain: stable
+          - image: handlebars
+            toolchain: stable
+          - image: liquid
+            toolchain: stable
+          - image: mustache
+            toolchain: stable
+          - image: tera
+            toolchain: stable
+          - image: tinytemplate
+            toolchain: stable
+          # - image: python
+          #   toolchain: nightly
     runs-on: ubuntu-latest
     permissions:
       packages: write
