@@ -17,15 +17,23 @@ jobs:
   push:
     strategy:
       matrix:
-        image:
-          - javascript
-          - python
+        include:
+          - image: javascript
+            toolchain: stable
+          - image: python
+            toolchain: nightly
     runs-on: ubuntu-latest
     permissions:
       packages: write
       contents: read
     steps:
       - uses: actions/checkout@v4
+
+      - name: Install latest nightly
+        uses: actions-rs/toolchain@v1
+        with:
+            toolchain: ${{ matrix.toolchain }}
+            target: wasm32-wasip2
 
       - name: Install `wash` CLI
         uses: taiki-e/install-action@97a83ae1347bc407f550a16fb0694d6f446eec88 # v2.50.9
@@ -49,4 +57,4 @@ jobs:
           [ "$VERSION" == "main" ] && VERSION=latest
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
-          wash push --user ${{ github.actor }} --password "${{ secrets.GITHUB_TOKEN }}" $IMAGE_ID:$VERSION components/${{ matrix.image }}/build/${{ matrix.image }}_component_s.wasm
+          wash push --user ${{ github.actor }} --password "${{ secrets.GITHUB_TOKEN }}" --allow-latest $IMAGE_ID:$VERSION components/${{ matrix.image }}/build/${{ matrix.image }}_component_s.wasm
