@@ -1,0 +1,52 @@
+#
+name: Demo Push
+
+# This workflow runs when any of the following occur:
+# - A push is made to a branch called `main` or `seed`
+# - A tag starting with "v" is created
+# - A pull request is created or updated
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - v*
+
+jobs:
+  # This pushes the image to GitHub Packages.
+  push:
+    strategy:
+      matrix:
+        image:
+          - javascript
+          - python
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install `wash` CLI
+        uses: taiki-e/install-action@97a83ae1347bc407f550a16fb0694d6f446eec88 # v2.50.9
+        with:
+          tool: wash
+
+      - name: Build image
+        run: wash build --config-path components/${{ matrix.image }}
+
+      - name: Push image
+        run: |
+          IMAGE_ID=ghcr.io/${{ github.repository_owner }}/${{ matrix.image }}
+
+          # This changes all uppercase characters to lowercase.
+          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+          # This strips the git ref prefix from the version.
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          # This strips the "v" prefix from the tag name.
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+          # This uses the Docker `latest` tag convention.
+          [ "$VERSION" == "main" ] && VERSION=latest
+          echo IMAGE_ID=$IMAGE_ID
+          echo VERSION=$VERSION
+          wash push --user ${{ github.actor }} --password "${{ secrets.GITHUB_TOKEN }}" $IMAGE_ID:$VERSION components/${{ matrix.image }}/build/${{ matrix.image }}_component_s.wasm
