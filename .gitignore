@@ -1,2 +1,5 @@
 node_modules
 transpiled
+_build
+deps
+test/components
