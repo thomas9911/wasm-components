@@ -1,10 +1,10 @@
 pub mod bindings {
     use crate::HandlebarsRenderer;
-    // wit_bindgen::generate!({with: { "thomas9911:template/template@0.1.0": generate, }});
+    // wit_bindgen::generate!({with: { "thomastimmer:template/template@0.1.0": generate, }});
     wit_bindgen::generate!({ generate_all });
     export!(HandlebarsRenderer);
 }
-use crate::bindings::exports::thomas9911::template::template::Guest;
+use crate::bindings::exports::thomastimmer::template::template::Guest;
 use handlebars::Handlebars;
 
 pub struct HandlebarsRenderer;

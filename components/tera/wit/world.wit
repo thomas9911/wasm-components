@@ -1,5 +1,5 @@
-package thomas9911:mustache;
+package thomastimmer:mustache;
 
 world hello {
-    export thomas9911:template/template@0.1.0;
+    export thomastimmer:template/template@0.1.0;
 }

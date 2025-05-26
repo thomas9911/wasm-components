@@ -1,4 +1,4 @@
-package thomas9911:expression@0.1.0;
+package thomastimmer:expression@0.1.0;
 
 interface expression {
   run: func(script: string) -> result<string, string>;

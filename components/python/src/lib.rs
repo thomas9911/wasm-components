@@ -4,7 +4,7 @@ pub mod bindings {
     export!(PythonExecute);
 }
 
-use crate::bindings::exports::thomas9911::expression::expression::Guest;
+use crate::bindings::exports::thomastimmer::expression::expression::Guest;
 
 use rustpython::vm;
 use rustpython::vm::{PyResult, VirtualMachine};

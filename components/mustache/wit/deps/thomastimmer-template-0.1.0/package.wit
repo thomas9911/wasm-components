@@ -1,4 +1,4 @@
-package thomas9911:template@0.1.0;
+package thomastimmer:template@0.1.0;
 
 interface template {
   render: func(template: string, json-variables: string) -> result<string, string>;

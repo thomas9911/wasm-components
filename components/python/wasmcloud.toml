@@ -9,5 +9,5 @@ build_artifact = "build/python_component.wasm"
 destination = "build/python_component_s.wasm"
 
 [[registry.pull.sources]]
-target = "thomas9911:expression@0.1.0"
+target = "thomastimmer:expression@0.1.0"
 source = "file://../../wit/expression.wit"
