@@ -1,0 +1,16 @@
+[package]
+name = "javascript-p1"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+wit-bindgen-rt = { version = "0.42.1", features = ["bitflags"] }
+rquickjs = { git = "https://github.com/DelSkayn/rquickjs.git", rev = "3394aa3128dc2d8e73c6fc8bb064a9d48c0680ff", features = ["full-wasi"]}
+
+[lib]
+crate-type = ["cdylib"]
+
+[package.metadata.component]
+package = "component:javascript-p1"
+
+[package.metadata.component.dependencies]

@@ -1,0 +1,9 @@
+package thomastimmer:javascript-p1;
+
+interface expression {
+  run: func(script: string) -> result<string, string>;
+}
+
+world hello {
+    export expression;
+}
