@@ -4,7 +4,7 @@ type = "component"
 [component]
 wasm_target = "wasm32-wasip2"
 # wasm_target = "wasm32-unknown-unknown"
-build_command = "cargo +nightly build -Z unstable-options --release --target wasm32-wasip2 --artifact-dir build"
+# build_command = "cargo +nightly build -Z unstable-options --release --target wasm32-wasip2 --artifact-dir build"
 build_artifact = "build/python_component.wasm"
 destination = "build/python_component_s.wasm"
 

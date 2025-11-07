@@ -8,8 +8,10 @@ crate-type = ["cdylib"]
 
 [dependencies]
 
-rustpython = { git = "https://github.com/thomas9911/RustPython.git", features = ["encodings", "freeze-stdlib"] }
-rustpython-pylib = { git = "https://github.com/thomas9911/RustPython.git", features = ["freeze-stdlib"] }
+# rustpython = { git = "https://github.com/thomas9911/RustPython.git", features = ["encodings", "freeze-stdlib"] }
+# rustpython-pylib = { git = "https://github.com/thomas9911/RustPython.git", features = ["freeze-stdlib"] }
+rustpython = { git = "https://github.com/RustPython/RustPython.git",features = ["encodings", "freeze-stdlib"] }
+rustpython-pylib = { git = "https://github.com/RustPython/RustPython.git",features = ["freeze-stdlib"] }
 
 # rustpython = { path = "F:\\Rust\\RustPython", features = ["encodings", "freeze-stdlib"] }
 # rustpython-pylib = { path = "F:\\Rust\\RustPython\\pylib", features = ["freeze-stdlib"] }
