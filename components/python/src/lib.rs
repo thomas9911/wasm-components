@@ -27,7 +27,7 @@ impl Guest for PythonExecute {
     fn run(script: String) -> Result<String, String> {
          vm::Interpreter::with_init(Default::default(), |vm| {
             // put this line to add stdlib to the vm
-            // vm.add_native_modules(rustpython_stdlib::get_module_inits());
+            vm.add_native_modules(rustpython_stdlib::get_module_inits());
             vm.add_frozen(rustpython_pylib::FROZEN_STDLIB);
         })
         // rustpython::InterpreterConfig::new()

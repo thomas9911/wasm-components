@@ -1645,6 +1645,7 @@ version = "0.1.0"
 dependencies = [
  "rustpython",
  "rustpython-pylib",
+ "rustpython-stdlib",
  "wit-bindgen 0.41.0",
 ]
 
