@@ -1,16 +1,12 @@
-#
-name: Demo Push
+name: Push
 
-# This workflow runs when any of the following occur:
-# - A push is made to a branch called `main` or `seed`
-# - A tag starting with "v" is created
-# - A pull request is created or updated
 on:
   push:
     branches:
-      - main
+      - '**'
     tags:
       - v*
+  pull_request:
 
 jobs:
   # This pushes the image to GitHub Packages.
@@ -66,6 +62,7 @@ jobs:
       - run: mix test      
 
       - name: Push image
+        if: startsWith(github.ref, 'refs/tags/') || github.ref == 'refs/heads/main'
         run: |
           IMAGE_ID=ghcr.io/${{ github.repository_owner }}/${{ matrix.image }}
 
