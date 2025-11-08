@@ -1,14 +1,9 @@
-#
-name: Demo Push
+name: Push
 
-# This workflow runs when any of the following occur:
-# - A push is made to a branch called `main` or `seed`
-# - A tag starting with "v" is created
-# - A pull request is created or updated
 on:
   push:
     branches:
-      - main
+      - '**'
     tags:
       - v*
 
@@ -55,7 +50,18 @@ jobs:
       - name: Build image
         run: wash build --config-path components/${{ matrix.image }}
 
+      - name: Copy component for testing
+        run: cp components/${{ matrix.image }}/build/${{ matrix.image }}_component_s.wasm test/components
+
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: "27.3.3"
+          elixir-version: "1.18.3"
+      - run: mix deps.get
+      - run: mix test      
+
       - name: Push image
+        if: startsWith(github.ref, 'refs/tags/') || github.ref == 'refs/heads/main'
         run: |
           IMAGE_ID=ghcr.io/${{ github.repository_owner }}/${{ matrix.image }}
 
