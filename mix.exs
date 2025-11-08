@@ -29,7 +29,7 @@ defmodule WasmComponents.MixProject do
   defp aliases do
     [
       build_wasm: [
-        # "cmd wash build --config-path components/javascript",
+        "cmd wash build --config-path components/javascript",
         "cmd wash build --config-path components/starlark",
         "cmd wash build --config-path components/python",
         "cmd wash build --config-path components/mustache",
