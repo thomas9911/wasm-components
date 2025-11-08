@@ -22,15 +22,14 @@ defmodule WasmComponents.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:wasmex,
-       git: "https://github.com/tessi/wasmex.git", ref: "e8d2f63cdf278ced11720cc58d93f96f72cb9872"}
+      {:wasmex, "~> 0.13.0"}
     ]
   end
 
   defp aliases do
     [
       build_wasm: [
-        "cmd wash build --config-path components/javascript",
+        # "cmd wash build --config-path components/javascript",
         "cmd wash build --config-path components/starlark",
         "cmd wash build --config-path components/python",
         "cmd wash build --config-path components/mustache",
