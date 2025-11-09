@@ -9,6 +9,7 @@ interface convert-format {
         base64-cbor,
         base64-msgpack,
         toml,
+        json5,
     }
 
     enum output-format {
@@ -18,6 +19,7 @@ interface convert-format {
         base64-cbor,
         base64-msgpack,
         toml,
+        json5,
     }
 
     convert: func(input: string, input-format: input-format, output-format: output-format) -> result<string, string>;

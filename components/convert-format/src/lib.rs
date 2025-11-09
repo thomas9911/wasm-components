@@ -18,8 +18,11 @@ impl Guest for Converter {
         input_format: InputFormat,
         output_format: OutputFormat,
     ) -> Result<String, String> {
-        let data = convert_input(&input, input_format)?;
+        // This can probably be faster by use or serde_erased or value-bag
+        // because currently we always go to serde_value::Value as an intermediate format
+        // probably for the csv implementation we always need to use serde_value::Value
 
+        let data = convert_input(&input, input_format)?;
         format_output(&data, output_format)
     }
 }
@@ -55,6 +58,11 @@ fn convert_input(input: &str, input_format: InputFormat) -> Result<serde_value::
         InputFormat::Toml => {
             let deserialized: serde_value::Value =
                 toml::from_str(input).map_err(|e| format!("TOML deserialization error: {}", e))?;
+            Ok(deserialized)
+        }
+        InputFormat::Json5 => {
+            let deserialized: serde_value::Value = serde_json5::from_str(input)
+                .map_err(|e| format!("JSON5 deserialization error: {}", e))?;
             Ok(deserialized)
         }
         InputFormat::Csv => {
@@ -100,6 +108,11 @@ fn format_output(data: &serde_value::Value, output_format: OutputFormat) -> Resu
         OutputFormat::Toml => {
             let serialized =
                 toml::to_string(data).map_err(|e| format!("TOML serialization error: {}", e))?;
+            Ok(serialized)
+        }
+        OutputFormat::Json5 => {
+            let serialized = serde_json5::to_string(data)
+                .map_err(|e| format!("JSON5 serialization error: {}", e))?;
             Ok(serialized)
         }
         OutputFormat::Csv => {
@@ -339,5 +352,49 @@ fn toml_to_json_test() {
 github = "xxxxxxxxxxxxxxxxx"
 travis = "yyyyyyyyyyyyyyyyy"
 "#
+    );
+}
+
+#[test]
+fn json5_to_json_test() {
+    let json5_data = r#"
+    {
+        // This is a comment
+        name: 'Alice',
+        age: 30,
+        hobbies: ['reading', 'gaming', 'hiking'],
+    }
+    "#;
+
+    let out = convert_input(json5_data, InputFormat::Json5).unwrap();
+    assert_eq!(
+        out,
+        serde_value::Value::Map(
+            vec![
+                (
+                    serde_value::Value::String("name".to_string()),
+                    serde_value::Value::String("Alice".to_string())
+                ),
+                (
+                    serde_value::Value::String("age".to_string()),
+                    serde_value::Value::I64(30)
+                ),
+                (
+                    serde_value::Value::String("hobbies".to_string()),
+                    serde_value::Value::Seq(vec![
+                        serde_value::Value::String("reading".to_string()),
+                        serde_value::Value::String("gaming".to_string()),
+                        serde_value::Value::String("hiking".to_string()),
+                    ])
+                )
+            ]
+            .into_iter()
+            .collect()
+        )
+    );
+
+    assert_eq!(
+        format_output(&out, OutputFormat::Json).unwrap(),
+        r#"{"age":30,"hobbies":["reading","gaming","hiking"],"name":"Alice"}"#
     );
 }
