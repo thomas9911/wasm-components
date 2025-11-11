@@ -1,0 +1,30 @@
+package thomastimmer:convert-format;
+
+interface convert-format {
+
+    enum input-format {
+        json,
+        csv,
+        yaml,
+        base64-cbor,
+        base64-msgpack,
+        toml,
+        json5,
+    }
+
+    enum output-format {
+        json,
+        csv,
+        yaml,
+        base64-cbor,
+        base64-msgpack,
+        toml,
+        json5,
+    }
+
+    convert: func(input: string, input-format: input-format, output-format: output-format) -> result<string, string>;
+}
+
+world main {
+    export convert-format;
+}
