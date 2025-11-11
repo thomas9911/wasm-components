@@ -117,7 +117,7 @@ fn format_output(data: &serde_value::Value, output_format: OutputFormat) -> Resu
         }
         OutputFormat::Csv => {
             let mut wtr = csv::Writer::from_writer(vec![]);
-            let mut headers: Option<Vec<String>> = None;
+            let mut headers: Option<Vec<serde_value::Value>> = None;
             if let serde_value::Value::Seq(records) = data {
                 for record in records {
                     match record {
@@ -126,10 +126,21 @@ fn format_output(data: &serde_value::Value, output_format: OutputFormat) -> Resu
                                 let new_headers = make_csv_headers(map)?;
                                 wtr.write_record(&new_headers)
                                     .map_err(|e| format!("CSV serialization error: {}", e))?;
-                                headers = Some(new_headers);
+                                headers = Some(
+                                    new_headers
+                                        .into_iter()
+                                        .map(serde_value::Value::String)
+                                        .collect(),
+                                );
                             }
-                            let row: Vec<_> = map.values().collect();
-                            dbg!(&row);
+                            let header_keys = headers.as_ref().expect("headers just set");
+                            let row: Vec<_> = header_keys
+                                .iter()
+                                .map(|h| map.get(&h))
+                                .collect::<Option<Vec<_>>>()
+                                .ok_or_else(|| {
+                                    "CSV serialization error: Missing expected column".to_string()
+                                })?;
                             wtr.serialize(row)
                                 .map_err(|e| format!("CSV serialization error: {}", e))?;
                         }
