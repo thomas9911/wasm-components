@@ -1,5 +1,10 @@
-package thomastimmer:mustache;
+package thomastimmer:python;
+
+interface extra {
+    run-with-context: func(script: string, json-data: string) -> result<string, string>;
+}
 
 world hello {
     export thomastimmer:expression/expression@0.1.0;
+    export extra;
 }
